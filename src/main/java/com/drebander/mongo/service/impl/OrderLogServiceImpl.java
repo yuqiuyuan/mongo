@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderLogServiceImpl implements OrderLogService {
@@ -19,8 +21,21 @@ public class OrderLogServiceImpl implements OrderLogService {
     @Resource
     private OrderLogDao orderLogDao;
 
-    public OrderLog getByOrderNo(String orderNo) {
+    /**
+     * 通过集合名称+过滤条件查询mongodb中的数据
+     *
+     * 这个方法的优点是不需要实体
+     *
+     * @param orderNo
+     * @return
+     */
+    @Override
+    public List<Map> getByOrderNoListMap(String orderNo) {
+        Query q = new Query(new Criteria("orderNo").regex(".*" + orderNo + ".*"));
+        return mongoTemplate.find(q,Map.class,"orderInfo");
+    }
 
+    public List<OrderLog> getByOrderNo(String orderNo) {
         return orderLogDao.getByOrderNo(orderNo);
     }
 
@@ -30,9 +45,9 @@ public class OrderLogServiceImpl implements OrderLogService {
 
     }
 
-    public OrderLog getByOrderNoLike(String orderNo) {
-
-        return orderLogDao.getByOrderNoLike(orderNo);
+    public List<OrderLog> getByOrderNoLike(String orderNo) {
+        Query q = new Query(new Criteria("orderNo").regex(".*" + orderNo + ".*"));
+        return mongoTemplate.findAllAndRemove(q, OrderLog.class);
     }
 
     public void removeOrderByOrderNo(String orderNo) {

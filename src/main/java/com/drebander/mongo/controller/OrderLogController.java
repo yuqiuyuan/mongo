@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 public class OrderLogController {
@@ -28,16 +29,15 @@ public class OrderLogController {
 
     @RequestMapping("/getOrderByOrderNo")
     @ResponseBody
-    public OrderLog getOrderByOrderNo() {
-        OrderLog orderLog = orderLogService.getByOrderNo("X797466");
+    public List<OrderLog> getOrderByOrderNo() {
+        List<OrderLog> orderLog = orderLogService.getByOrderNo("X797466");
         return orderLog;
     }
 
     @RequestMapping("/getOrderByOrderNoLike")
     @ResponseBody
-    public OrderLog getOrderByOrderNoLike() {
-        OrderLog order = orderLogService.getByOrderNoLike("X797");
-        return order;
+    public List<OrderLog> getOrderByOrderNoLike() {
+        return orderLogService.getByOrderNoLike("X797");
     }
 
     @RequestMapping("/removeOrderByOrderNo")

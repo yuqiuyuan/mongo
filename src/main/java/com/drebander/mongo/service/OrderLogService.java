@@ -2,12 +2,17 @@ package com.drebander.mongo.service;
 
 import com.drebander.mongo.pojo.OrderLog;
 
+import java.util.List;
+import java.util.Map;
+
 public interface OrderLogService {
 
 
-    OrderLog getByOrderNo(String orderNo);
+    List<Map> getByOrderNoListMap(String orderNo);
 
-    OrderLog getByOrderNoLike(String orderNo);
+    List<OrderLog> getByOrderNo(String orderNo);
+
+    List<OrderLog> getByOrderNoLike(String orderNo);
 
     void saveOrder(OrderLog order);
 

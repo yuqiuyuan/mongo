@@ -19,11 +19,15 @@ public class MongoServiceTests {
     public void testInsertLog() {
         OrderLog log1 = new OrderLog();
         log1.setLogType("Charging");
-        log1.setOrderNo("110250105");
+        log1.setOrderNo("110250109");
         orderLogService.saveOrder(log1);
         OrderLog log2 = new OrderLog();
         log2.setLogType("Exception");
-        log2.setOrderNo("110250105");
+        log2.setOrderNo("110250109");
         orderLogService.saveOrder(log2);
+    }
+    @Test
+    public void testLikeLog(){
+         orderLogService.getByOrderNoLike("110");
     }
 }

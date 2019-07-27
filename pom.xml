@@ -16,12 +16,20 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <log4j.version>2.5</log4j.version>
     </properties>
 
     <dependencies>
+        <!-- 第一步、去掉springBoot内部的默认的日志记录框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -53,12 +61,45 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- 第二步，引入mongodb依赖 -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+        </dependency>
+
+        <!-- 第三部，引入下面这些包 -->
+        <!-- 注意下面的版本要一样 这三个版本是将日志记录到mongodb的关键 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-nosql</artifactId> <!-- 必需，否则报错 -->
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.drebander</groupId>
+            <artifactId>mongo</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
 
     </dependencies>
 
