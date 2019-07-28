@@ -40,6 +40,7 @@ public class ChargeHubServiceImpl implements ChargeHubService {
 
     /**
      * 仅使用订单号进行查找
+     *
      * @param orderNo
      * @return
      */
@@ -56,6 +57,7 @@ public class ChargeHubServiceImpl implements ChargeHubService {
     /**
      * 目前认为这种方法是最靠谱的方法
      * 日志名称+方法名+订单号 对日志进行查找
+     *
      * @param orderNo
      * @return
      */
@@ -65,16 +67,15 @@ public class ChargeHubServiceImpl implements ChargeHubService {
         Field[] fields = charOrderReport.getClass().getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             ChargeHubLogQuery query = new ChargeHubLogQuery();
-            query.setLoggerName(fields[i].getAnnotation(LoggerName.class).value());
+            query.setLoggerName(fields[i].getName());
             query.setMessageKey(Arrays.asList(fields[i].getName(), orderNo));
             Map log = chargeHubManager.getQueryOne(query);
             try {
-                Field reportField = charOrderReport.getClass().getDeclaredField(fields[i].getName());
-                reportField.setAccessible(true);
-                if (log.isEmpty()) {
-                    reportField.set(charOrderReport, reportField.getAnnotation(LoggerName.class).no());
+                fields[i].setAccessible(true);
+                if (null == log || log.isEmpty()) {
+                    fields[i].set(charOrderReport, fields[i].getAnnotation(LoggerName.class).no());
                 } else {
-                    reportField.set(charOrderReport, reportField.getAnnotation(LoggerName.class).yes());
+                    fields[i].set(charOrderReport, fields[i].getAnnotation(LoggerName.class).yes());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

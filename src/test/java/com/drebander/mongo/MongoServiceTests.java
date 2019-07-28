@@ -2,6 +2,7 @@ package com.drebander.mongo;
 
 
 import com.drebander.mongo.pojo.OrderLog;
+import com.drebander.mongo.service.ChargeHubService;
 import com.drebander.mongo.service.OrderLogService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,9 @@ public class MongoServiceTests {
     @Autowired
     OrderLogService orderLogService;
 
+    @Autowired
+    ChargeHubService chargeHubService;
+
     @Test
     public void testInsertLog() {
         OrderLog log1 = new OrderLog();
@@ -26,8 +30,14 @@ public class MongoServiceTests {
         log2.setOrderNo("110250109");
         orderLogService.saveOrder(log2);
     }
+
     @Test
-    public void testLikeLog(){
-         orderLogService.getByOrderNoLike("110");
+    public void testLikeLog() {
+        orderLogService.getByOrderNoLike("110");
+    }
+
+    @Test
+    public void testQuery() {
+        chargeHubService.getChargeOrderReport("123123123123123");
     }
 }
