@@ -7,20 +7,10 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface LoggerName {
-    String value();
+public @interface Column {
+    String name();
 
-    /**
-     * 当日志正常返回的内容
-     *
-     * @return
-     */
-    String yes();
+    String type() default "string";
 
-    /**
-     * 日志异常返回的日志的内容
-     *
-     * @return
-     */
-    String no();
+    int length() default 20;
 }
